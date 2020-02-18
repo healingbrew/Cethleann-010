@@ -25,15 +25,12 @@ typedef struct KHMHEADER {
     float mid<name="Mid Level">;
     float floor<name="Floor Level">;
     float ceiling<name="Ceiling Level">;
-    uint neutral<name="Neutral", comment="This is mid level">;
 } KHMHeader;
 
 LittleEndian();
 
 struct FILE {
     KHMHeader header<name="Header">;
-    uint data[header.width * header.height]<name="Data">;
-    uint floor[header.width]<name="Floor">;
-    uint ceiling[header.height]<name="Ceiling">;
+    uint data[(header.width + 1) * (header.height + 1)];
 } File<name="Koei Height Map", open=true>;
 

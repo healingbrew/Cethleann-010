@@ -1,0 +1,82 @@
+//------------------------------------------------
+//--- 010 Editor v10.0.1 Binary Template
+//
+//      File: pkginfo.bt
+//   Authors: Yretenai / HealingBrew
+//   Version: 1.0
+//   Purpose: Parsing PKGINFO manifests
+//  Category: Game Files
+//  ID Bytes: 70 6B 67 69 6E 66 6F 00
+//   History: 
+//          - 1.0 - Initial File
+//------------------------------------------------
+
+LittleEndian();
+
+#define RTRPK_FILELESS
+#include "RTRPK.bt"
+
+typedef struct PKGINFOUNKSTRUCT1 {
+    uint unknown1;
+    uint unknown2[unknown1];
+} PKGINFOUnknown1;
+
+typedef struct PKGINFOBTIFHEADERSTRUCT {
+    uint magic<name="Magic">;
+    uint unknown1;
+    uint entry_count;
+    uint unknown2;
+    uint unknown3;
+    uint unknown4;
+    uint block_size;
+    uint text_pointer;
+    uint unknown5;
+    uint mangled_pointer;
+} PKGINFOBTIFHeader;
+
+typedef struct PKGINFOBTIFENTRYSTRUCT {
+    uint hash;
+    uint mangled_index;
+    uint id;
+    uint name_offset;
+    uint flags;
+    uint size;
+    uint compressed_size;
+    uint type_hash;
+    uint version;
+    local int locptr = FTell();
+    FSeek(pointers[1] + btif_header.text_pointer + name_offset + 0x28);
+    string filename;
+    FSeek(locptr);
+} PKGINFOBTIFEntry;
+
+typedef struct PKGINFOBTIFSTRUCT {
+    PKGINFOBTIFHeader btif_header<name="Header">;
+    PKGINFOBTIFEntry entries[btif_header.entry_count]<name="Entries", optimize=false>;
+    FSeek(pointers[1] + btif_header.mangled_pointer + 0x28);
+    byte unknown_block[0x80]<name="Unknown 1">;
+} PKGINFOBTIF;
+
+typedef struct PKGINFOUNKSTRUCT2 {
+    uint unknown1;
+} PKGINFOUnknown2;
+
+typedef struct PKGINFOLABELSTRUCT {
+    uint unknown1;
+} PKGINFOLabel;
+
+typedef struct PKGINFOSTURCT { // Functionally the same as RTRPK.
+    RTRPKHeader header<name="Header">;
+    FSeek(header.pointer_table_pointer);
+    int pointers[header.pointer_count]<name="Pointers">;
+    // FSeek(pointers[0]);
+    // PKGINFOUnknown1 unknown1<name="Unknown Section 1">;
+    FSeek(pointers[1]);
+    PKGINFOBTIF btif<name="BTIF">;
+    // FSeek(pointers[2]);
+    // PKGINFOUnknown2 unknown2<name="Unknown Section 2">;
+    // FSeek(pointers[3]);
+    // PKGINFOLabel label<name="Label">;
+} PKGINFO;
+
+PKGINFO File<name="PKGINFO", open=true>;

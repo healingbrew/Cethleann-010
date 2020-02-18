@@ -16,21 +16,6 @@ LittleEndian();
 #define RTRPK_FILELESS
 #include "../archive/RTRPK.bt"
 
-typedef struct WHDHEADER {
-    string magic<name="Magic">;
-    G1Helper_AlignBytes(0x4);
-    short unknown1<name="Unknown 1">;
-    byte unknown2<name="Unknown 2">;
-    byte unknown3<name="Unknown 3">;
-    int header_size<name="Header Size">;
-    int file_size<name="File Size">;
-    int pointer_count<name="Pointer Count">;
-    int size_count<name="Size Count">;
-    int unknown4<hidden=true>;
-    int pointer_table_pointer<name="Pointer Table Pointer">;
-    int size_table_pointer<name="Size Table Pointer">;
-} WHDHeader;
-
 typedef enum WBHTYPE {
     KWB2 = 0x3242574B
 } WBHType;
