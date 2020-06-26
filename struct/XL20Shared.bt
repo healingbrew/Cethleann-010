@@ -1,0 +1,27 @@
+//------------------------------------------------
+//--- 010 Editor v9.1.0 Binary Template
+//
+//      File: XL20Shared.bt
+//   Authors: Yretenai
+//   Version: 1.0
+//   Purpose: Shared XL20 structs
+//  Category: Struct
+// File Mask: *.bin
+//  ID Bytes: /
+//   History:
+//   1.0    2020-06-26  Yretenai: Initial File
+//------------------------------------------------
+
+#ifndef XL20SHARED
+#define XL20SHARED
+
+typedef struct XL20STRING {
+    int size<name="Length">;
+    char text[size]<name="Text">;
+} XL20String;
+
+typedef struct XL20DATE {
+    char text[0x40]<name="Text">;
+} XL20Date;
+
+#endif // XL20SHARED

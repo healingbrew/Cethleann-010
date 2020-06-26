@@ -1,0 +1,25 @@
+//------------------------------------------------
+//--- 010 Editor v9.1.0 Binary Template
+//
+//      File: mst_add_param_target.bt
+//   Authors: Yretenai
+//   Version: 1.0
+//   Purpose: /
+//  Category: Struct
+// File Mask: *.bin
+//  ID Bytes: /
+//   History:
+//   1.0    2020-06-26  Yretenai: Initial File
+//------------------------------------------------
+
+#include "../XL20Shared.bt"
+
+typedef struct XL20DFFOOMSTADDPARAMTARGET {
+    int unknown0;
+    int unknown1;
+    int unknown2;
+    int unknown3;
+    XL20Date start<name="Start">;
+    XL20Date end<name="End">;
+    int unknown4;
+} DFFOOAddParamTarget;
